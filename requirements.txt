@@ -1,10 +1,11 @@
-python==3.8
+python
 numpy
 pandas
 scikit-learn
 pytest
 requests
-fastapi==0.63.0
+fastapi
+pydantic
 uvicorn
 gunicorn
 ydata-profiling
