@@ -6,27 +6,28 @@ client = TestClient(app)
 
 
 def test_get_root():
-    r = client.get("/")
-    assert r.status_code == 200
-    assert r.json()[0] == "Welcome to the Census Bureau dataset API!"
+    res = client.get("/")
+
+    assert res.status_code == 200
+    assert res.json()[0] == "Welcome to the Census Bureau dataset API!"
 
 
 def test_post_more_than_50k():
 
     body = {
-        'age': 35,
+        'age': 47,
         'workclass': 'Private',
-        'fnlwgt': 215646,
+        'fnlwgt': 198456,
         'education': 'Masters',
-        'education-num': 12,
-        'marital-status': 'Never-married',
+        'education-num': 14,
+        'marital-status': 'Divorced',
         'occupation': 'Sales',
         'relationship': 'Not-in-family',
         'race': 'White',
         'sex': 'Male',
-        'capital-gain': 50000,
-        'capital-loss': 3000,
-        'hours-per-week': 50,
+        'capital-gain': 85000,
+        'capital-loss': 1000,
+        'hours-per-week': 60,
         'native-country': 'United-States'
     }
 
@@ -41,32 +42,33 @@ def test_post_less_than_50k():
     body = {
         'age': 19,
         'workclass': 'Private',
-        'fnlwgt': 215646,
+        'fnlwgt': 220437,
         'education': 'HS-grad',
-        'education-num': 9,
+        'education-num': 8,
         'marital-status': 'Never-married',
         'occupation': 'Handlers-cleaners',
         'relationship': 'Not-in-family',
         'race': 'Asian-Pac-Islander',
-        'sex': 'Male',
+        'sex': 'Female',
         'capital-gain': 0,
-        'capital-loss': 0,
-        'hours-per-week': 30,
+        'capital-loss': 2000,
+        'hours-per-week': 25,
         'native-country': 'Peru'
     }
 
-    r = client.post("/inference", json=body)
-    assert r.status_code == 200
+    res = client.post("/inference", json=body)
+
+    assert res.status_code == 200
     assert isinstance(r.json()["predictions"], list)
-    assert r.json()["predictions"][0] == "<=50K"
+    assert res.json()["predictions"][0] == "<=50K"
 
 
 def test_post_invalid_input():
 
     body = {
         'invalid_field_a': 42,
-        'invalid_field_b': 'foo'
+        'invalid_field_b': 'hello world'
     }
 
-    r = client.post("/inference", data=body)
-    assert r.status_code != 200
+    res = client.post("/inference", data=body)
+    assert res.status_code != 200
