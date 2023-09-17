@@ -1,10 +1,15 @@
+import pandas as pd
 import numpy as np
-from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
+from sklearn.metrics import f1_score, accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelBinarizer, OneHotEncoder, StandardScaler
+import pickle
+import logging
 
 
 def process_data(
-    X, categorical_features=[], label=None, training=True, encoder=None, lb=None
-):
+        X, categorical_features=[], label=None, training=True, encoder=None, scaler=None):
     """ Process the data used in the machine learning pipeline.
 
     Processes the data using one hot encoding for the categorical features and a
@@ -44,6 +49,7 @@ def process_data(
         passed in.
     """
 
+    logging.info("Processing data")
     if label is not None:
         y = X[label]
         X = X.drop([label], axis=1)
@@ -54,17 +60,25 @@ def process_data(
     X_continuous = X.drop(*[categorical_features], axis=1)
 
     if training is True:
+        logging.info("Fitting Encoder and Scaler")
         encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
         y = lb.fit_transform(y.values).ravel()
+
+        # Save Binarizer and Encoder
+        pickle.dump(encoder, open('model/encoder.pkl', 'wb'))
+        pickle.dump(lb, open('model/lb.pkl', 'wb'))
     else:
+        logging.info("Applying Encoder and Binarizer")
         X_categorical = encoder.transform(X_categorical)
         try:
             y = lb.transform(y.values).ravel()
         # Catch the case where y is None because we're doing inference.
         except AttributeError:
-            pass
+            y = None
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
+    logging.info("Finished processing data")
+
     return X, y, encoder, lb
