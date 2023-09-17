@@ -25,7 +25,7 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
     logging.info("Training model")
-    model = LogisticRegression(C=1.0, solver='newton-cg', max_iter=150)
+    model = LogisticRegression(C=1.0, solver='newton-cg', max_iter=100)
     model.fit(X_train, y_train)
     pickle.dump(model, open('model/trainedmodel.pkl', 'wb'))
     return model
