@@ -30,7 +30,7 @@ def test_train_model(fake_data):
 
     model = train_model(X_fake, y_fake)
 
-    assert model.n_classes_ == 2
+    assert len(model.classes_) == 2
 
 
 def test_compute_model_metrics():

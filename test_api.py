@@ -8,7 +8,7 @@ client = TestClient(app)
 def test_get_root():
     r = client.get("/")
     assert r.status_code == 200
-    assert r.json() == "Welcome to the Census Bureau dataset API!"
+    assert r.json()[0] == "Welcome to the Census Bureau dataset API!"
 
 
 def test_post_more_than_50k():
@@ -33,7 +33,7 @@ def test_post_more_than_50k():
     r = client.post("/inference", json=body)
     assert r.status_code == 200
     assert isinstance(r.json()["prediction"], list)
-    assert r.json()["prediction"][0] == ">50K"
+    assert r.json()["predictions"][0] == ">50K"
 
 
 def test_post_less_than_50k():
@@ -58,7 +58,7 @@ def test_post_less_than_50k():
     r = client.post("/inference", json=body)
     assert r.status_code == 200
     assert isinstance(r.json()["prediction"], list)
-    assert r.json()["prediction"][0] == "<=50K"
+    assert r.json()["predictions"][0] == "<=50K"
 
 
 def test_post_invalid_input():
