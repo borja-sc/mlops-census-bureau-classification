@@ -32,7 +32,7 @@ def test_post_more_than_50k():
 
     r = client.post("/inference", json=body)
     assert r.status_code == 200
-    assert isinstance(r.json()["prediction"], list)
+    assert isinstance(r.json()["predictions"], list)
     assert r.json()["predictions"][0] == ">50K"
 
 
@@ -57,7 +57,7 @@ def test_post_less_than_50k():
 
     r = client.post("/inference", json=body)
     assert r.status_code == 200
-    assert isinstance(r.json()["prediction"], list)
+    assert isinstance(r.json()["predictions"], list)
     assert r.json()["predictions"][0] == "<=50K"
 
 
