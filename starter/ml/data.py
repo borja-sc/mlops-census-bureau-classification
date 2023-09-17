@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-from sklearn.metrics import f1_score, accuracy_score
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder, StandardScaler
 import pickle
@@ -9,7 +7,7 @@ import logging
 
 
 def process_data(
-        X, categorical_features=[], label=None, training=True, encoder=None, scaler=None):
+        X, categorical_features=[], label=None, training=True, encoder=None, lb=None):
     """ Process the data used in the machine learning pipeline.
 
     Processes the data using one hot encoding for the categorical features and a
@@ -67,8 +65,8 @@ def process_data(
         y = lb.fit_transform(y.values).ravel()
 
         # Save Binarizer and Encoder
-        pickle.dump(encoder, open('model/encoder.pkl', 'wb'))
-        pickle.dump(lb, open('model/lb.pkl', 'wb'))
+        pickle.dump(encoder, open('model/data_encoder.pkl', 'wb'))
+        pickle.dump(lb, open('model/label_encoder.pkl', 'wb'))
     else:
         logging.info("Applying Encoder and Binarizer")
         X_categorical = encoder.transform(X_categorical)
