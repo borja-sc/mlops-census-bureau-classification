@@ -33,7 +33,7 @@ def test_post_more_than_50k():
 
     res = client.post("/inference", json=body)
     assert res.status_code == 200
-    assert isinstance(r.json()["predictions"], list)
+    assert isinstance(res.json()["predictions"], list)
     assert res.json()["predictions"][0] == ">50K"
 
 
