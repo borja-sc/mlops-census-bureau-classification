@@ -31,10 +31,10 @@ def test_post_more_than_50k():
         'native-country': 'United-States'
     }
 
-    r = client.post("/inference", json=body)
-    assert r.status_code == 200
+    res = client.post("/inference", json=body)
+    assert res.status_code == 200
     assert isinstance(r.json()["predictions"], list)
-    assert r.json()["predictions"][0] == ">50K"
+    assert res.json()["predictions"][0] == ">50K"
 
 
 def test_post_less_than_50k():
@@ -59,7 +59,7 @@ def test_post_less_than_50k():
     res = client.post("/inference", json=body)
 
     assert res.status_code == 200
-    assert isinstance(r.json()["predictions"], list)
+    assert isinstance(res.json()["predictions"], list)
     assert res.json()["predictions"][0] == "<=50K"
 
 
