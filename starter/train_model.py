@@ -10,6 +10,17 @@ import logging
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
+cat_features = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
+]
+
 def main():
     # Add code to load in the data.
     data = pd.read_csv('data/cleaned_census.csv')
@@ -18,17 +29,6 @@ def main():
     train, test = train_test_split(data, test_size=0.20, random_state=42)
     train.reset_index(inplace=True, drop=True)
     test.reset_index(inplace=True, drop=True)
-
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
 
     # Process the test data with the process_data function.
     X_train, y_train, encoder, lb = process_data(
