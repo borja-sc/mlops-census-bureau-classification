@@ -39,7 +39,7 @@ An 80/20 train/test split is applied to the dataset.
 - Accuracy: 0.8486468564797547
 
 ## Ethical Considerations
-No ethical considerations are devised for this model.
+When performing performance analysis by slices of data segmented by race, one can observe that "Black", "Amer-Indian-Eskimo", and "Others" race classes feature a significantly lower performance in terms of recall and Fbeta. This means the model is prone to misclassifying people from such ethnicities as having lower than 50k USD yearly salary.
 
 ## Caveats and Recommendations
 This model has plenty of margin for improvement and should not be used for serious applications.
